@@ -1,0 +1,6 @@
+# Settings for Debian-family
+package_manager: apt
+required_packages: [curl, git, ufw, vim, htop, python3-docker]
+
+# Docker packages
+docker_packages: [docker-ce, docker-ce-cli, containerd.io, docker-buildx-plugin, docker-compose-plugin]

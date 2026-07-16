@@ -1,0 +1,6 @@
+# Settings for RedHat-family
+package_manager: dnf
+required_packages: [curl, git, firewalld, vim, htop]
+
+# Docker packages
+docker_packages: [docker-ce, docker-ce-cli, containerd.io, docker-buildx-plugin, docker-compose-plugin]

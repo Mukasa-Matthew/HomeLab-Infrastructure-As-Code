@@ -1,0 +1,47 @@
+---
+- name: Install repository dependencies
+  ansible.builtin.package:
+    name: [curl, gnupg, lsb-release]
+    state: present
+  become: yes
+
+# Aggressive Cleanup: Remove ALL docker-related sources files to prevent Signed-By conflicts
+- name: Remove all existing docker repo files
+  ansible.builtin.shell: rm -f /etc/apt/sources.list.d/docker*.list
+  when: package_manager == 'apt'
+  become: yes
+
+- name: Add Docker GPG key
+  ansible.builtin.apt_key:
+    url: https://download.docker.com/linux/ubuntu/gpg
+    state: present
+  when: package_manager == 'apt'
+  become: yes
+
+- name: Add Docker Repository
+  ansible.builtin.apt_repository:
+    repo: "deb [arch=amd64] https://download.docker.com/linux/ubuntu {{ ansible_distribution_release }} stable"
+    state: present
+    update_cache: yes
+  when: package_manager == 'apt'
+  become: yes
+
+- name: Add Docker Repository (Rocky/RHEL)
+  ansible.builtin.command: dnf config-manager --add-repo https://download.docker.com/linux/centos/docker-ce.repo
+  args:
+    creates: /etc/yum.repos.d/docker-ce.repo
+  when: package_manager == 'dnf'
+  become: yes
+
+- name: Install Docker
+  ansible.builtin.package:
+    name: "{{ docker_packages }}"
+    state: present
+  become: yes
+
+- name: Start and enable Docker
+  ansible.builtin.service:
+    name: docker
+    state: started
+    enabled: yes
+  become: yes

@@ -1,6 +1,13 @@
 ---
 - name: Initialize and Harden Fleet
-  hosts: homelab
+  hosts: all
   become: yes
   roles:
     - base_system
+    - docker
+
+- name: Configure Identity Layer
+  hosts: storage_servers
+  become: yes
+  roles:
+    - freeipa

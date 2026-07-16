@@ -1,0 +1,20 @@
+---
+- name: Install FreeIPA server packages
+  ansible.builtin.package:
+    name: [ipa-server, ipa-server-dns]
+    state: present
+  become: yes
+  when: ansible_os_family == "RedHat"
+
+- name: Configure FreeIPA (Initial Setup)
+  ansible.builtin.command: >
+    ipa-server-install -U 
+    --realm=LAB.LOCAL 
+    --domain=lab.local 
+    --admin-password=1100211Matt. 
+    --ds-password=1100211Matt. 
+    --no-ntp
+  args:
+    creates: /etc/ipa/default.conf
+  become: yes
+  when: ansible_os_family == "RedHat"
