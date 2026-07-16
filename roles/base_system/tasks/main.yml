@@ -10,6 +10,10 @@
       apt:
         name: [curl, git, ufw, vim, htop]
         state: present
+    - name: Install Docker Python SDK for Debian
+      apt:
+        name: python3-docker
+        state: present
   when: ansible_distribution in ['Ubuntu', 'Debian']
   become: yes
 
