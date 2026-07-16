@@ -1,0 +1,13 @@
+---
+- name: Deploy Hello World Web App
+  hosts: web_servers
+  become: yes
+  tasks:
+    - name: Start Nginx container
+      docker_container:
+        name: my-web-app
+        image: nginx:alpine
+        state: started
+        restart_policy: always
+        published_ports:
+          - "8081:80"
