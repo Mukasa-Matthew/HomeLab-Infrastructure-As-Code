@@ -1,0 +1,28 @@
+---
+# Handle Debian-based systems (Ubuntu)
+- name: Configure Debian-based systems
+  block:
+    - name: Update apt cache and upgrade
+      apt:
+        update_cache: yes
+        upgrade: dist
+    - name: Install tools on Debian
+      apt:
+        name: [curl, git, ufw, vim, htop]
+        state: present
+  when: ansible_distribution in ['Ubuntu', 'Debian']
+  become: yes
+
+# Handle RedHat-based systems (Rocky)
+- name: Configure RedHat-based systems
+  block:
+    - name: Update dnf cache and upgrade
+      dnf:
+        name: '*'
+        state: latest
+    - name: Install tools on Rocky
+      dnf:
+        name: [curl, git, firewalld, vim, htop]
+        state: present
+  when: ansible_distribution in ['Rocky', 'RedHat', 'CentOS']
+  become: yes

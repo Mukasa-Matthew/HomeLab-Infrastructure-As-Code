@@ -1,0 +1,6 @@
+---
+- name: Initialize and Harden Fleet
+  hosts: homelab
+  become: yes
+  roles:
+    - base_system

@@ -1,0 +1,9 @@
+# Ignore Ansible secrets and temp files
+*.retry
+*.vault
+.vault_pass
+*.pyc
+__pycache__/
+.DS_Store
+# Ignore the SSH directory
+.ssh/
